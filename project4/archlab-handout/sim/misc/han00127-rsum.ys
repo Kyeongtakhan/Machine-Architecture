@@ -1,0 +1,42 @@
+#Kyeongtak Han 
+#5492834
+.pos 0
+	irmovq Stack, %rsp	#Set the stack pointer
+	rrmovq %rsp, %rbp 	#Set the base pointer
+	irmovq ele1, %rdi
+	call rsum_list		#Excute the rsum_list function 
+	halt
+
+#sample linked list
+.align 8
+ele1: 
+	.quad 0x00a
+	.quad ele2
+ele2:
+	.quad 0x0b0
+	.quad ele3
+ele3:
+	.quad 0xc00
+	.quad 0
+
+rsum_list:    	
+	andq %rdi, %rdi	        # Set cc
+	je base                   # If base condtion go to L4
+	mrmovq (%rdi), %rcx     # Get ls rcx -> ls
+        addq %rcx, %rdx         # val += rcx
+	mrmovq 8(%rdi), %rdi    # ls = ls -> next
+	call rsum_list          # call function again with parameter 
+	rrmovq %rax, %rcx       # Get the new returned value
+	addq %rcx, %rdx         # adding up the val and rest 
+	rrmovq %rdx, %rax       # return the sum
+base:
+	irmovq $0, %r10         # set retrun value to 0
+	addq   %r10, %rax       # return 0 
+end:
+	rrmovq %rsp, %rbp
+	popq %rbp
+	ret
+
+# stack starts here and grows to lower addresses	
+	.pos 0x200
+Stack: 

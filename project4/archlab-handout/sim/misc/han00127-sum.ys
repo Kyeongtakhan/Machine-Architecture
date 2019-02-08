@@ -1,0 +1,39 @@
+#Kyeongtak Han 
+#5492834
+.pos 0
+	irmovq Stack, %rsp  #Set the stack pointer
+	rrmovq %rsp, %rbp   #Set the base pointer
+	irmovq ele1, %rdi
+	call sum_list       #Excute the sum_list function 
+	halt
+
+#sample linked list
+.align 8
+ele1: 
+	.quad 0x00a
+	.quad ele2
+ele2:
+	.quad 0x0b0
+	.quad ele3
+ele3:
+	.quad 0xc00
+	.quad 0
+
+
+sum_list:
+	xorq %rax, %rax         # Set val = 0	                        
+	andq %rdi, %rdi         # Set CC 
+	je end 
+Loop:                            #Loop
+	mrmovq (%rdi), %rcx      # Get ls rcx -> ls
+	addq %rcx, %rax          # val += rcx
+	mrmovq 8(%rdi), %rdi     # ls = ls -> next
+	andq %rdi, %rdi          # Set cc
+	jne Loop
+end: 
+	rrmovq %rbp, %rsp       # Restore %rsp
+	popq   %rbp             # Restore %rbp
+	ret 			# Return
+# stack starts here and grows to lower addresses
+.pos 0x200
+Stack: 

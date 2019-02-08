@@ -1,0 +1,92 @@
+gdb bomb136
+
+break explode_bomb
+break phase_1
+
+disas & tui layout asm 
+
+
+gdb bomb 
+b explode_bomb
+b phase_2
+r
+i like bacon 
+disas 
+phase1 I am for medical liability at the federal level.
+
+pahse2 1 2 4 8 16 32
+
+phase3 1 928
+
+phase4   0 11
+phase5   5 115
+phase 6  6 5 1 3 2 4   
+secret_phase
+                        
+ 1 320 
+
+       
+
+"ni" --> function<read_six_numbers> 
+Go to before the Compare function then read the function which is read_six_numbers 
+Then "si" -> "disas"
+Read the <read_six_numbers> functions memory address then copy it 
+"until *memory(0x0000555555555b14)"   --> "disas"                                  ----> if less than, go to explode --> greater than!
+"ni" "disas"
+Then we find that we need 6 numbers
+
+go back and run again 
+then go to cmpl <0x0000555555555322> "until *0x0000555555555322"  --> "disas"
+
+"ni" go over the explode_bomb if caught that first value is wrong  if not  
+go to next until add. then "i r"
+
+find the value of being compared. which is Ox04(%rbx)  --> Ox04 + %rbx(0x7fffffffd7e0)
+
+compare 1, 2
+if works 
+
+type "ni" go to compl 
+x/d memory address 
+
+7fffffffd7f4 -- 140737488345076
+7fffffffd7e4    140737488345060
+
+
+3 2 6 5 1 4                                  3 6 5 1 2 4
+<N2>252   <  <N3>(774)                        979
+
+ 979   >  252
+
+774 801 252 197 904 979
+N6 979 > N5 904     6 5
+   904 > 801        5 1
+   801 > 774        1 3
+   774 > 252        3 2
+   252 > 197        2 4
+            6 5 1 3 2 4
+0x555555758250 <node3>:	774
+
+0x555555758230 <node1>:	801
+
+0x555555758240 <node2>:	252
+
+0x555555758260 <node4>:	197
+
+0x555555758270 <node5>:	904
+
+               <node6>: 979
+
+0x555555758280 <host_table>:	1431662095  6
+
+
+
+
+
+
+
+ 
+
+
+
+

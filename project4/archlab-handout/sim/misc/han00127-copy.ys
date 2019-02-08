@@ -1,0 +1,53 @@
+#Kyeongtak Han 
+#5492834
+
+.pos 0
+	irmovq Stack, %rsp       #Set the stack pointer
+	rrmovq %rsp, %rbp        #Set the base pointer   	
+	
+	irmovq src, %rdi         #get the src 
+	irmovq dest, %rsi        #get the dest
+	irmovq $3, %rdx          #set len = 3
+	call copy_block		 #Excute the copy_block function 
+	halt
+
+.align 8
+# Source block
+src: 
+	.quad 0x001
+	.quad 0x002
+	.quad 0x004
+
+# Destination block
+dest:
+	.quad 0x111
+	.quad 0x222
+	.quad 0x333
+
+#		  src pointer dest pointer
+#long copy_block (long *src, long *dest, long val)
+#		   #rdi       rsi        rdx
+
+copy_block:
+	irmovq $0, %rax         #Set result = 0
+	andq %rdx, %rdx	                         
+	je end 
+
+# copy from *src to temp1 and increment src
+# Copy temp1 to *dest, increment dest, and also copy value to temp2
+
+loop:                             #Loop
+	mrmovq (%rdi), %r8        # get src  
+	rmmovq %r8, (%rsi)        # src = dest        
+	xorq   %r8, %rax          # result ^= val
+	iaddq  $8, %rdi           # src++
+	iaddq  $8, %rsi           # dest ++
+	iaddq  $-1, %rdx          # len --
+	jne loop         
+
+end:	rrmovq %rbp, %rsp
+	popq %rbp 
+	ret 
+
+.pos 0x200
+Stack: 
